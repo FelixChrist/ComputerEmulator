@@ -8,17 +8,19 @@ int main(){
 	}
 }
 void FetchExecuteCycle(){
-	cpu.SetPC();
-	memory.SetMAR(cpu.GetPC());
-	cpu.IncrementPC();
-	memory.SetMDR();
-	cpu.SetCIR(memory.GetMAR());
-	instruction=Decode(cpu.GetCIR());
-	jump=IsJump(instruction);
-	if(Jump){
-		PC = Instruction;
+	memory.SetMAR(cpu.GetPC()); //Set MAR to Location of instruction
+	cpu.IncrementPC(); //Set PC to location of next instruction
+	memory.SetMDR(); //Set MDR with instruction
+	cpu.SetCIR(memory.GetMDRInstruction()); //Set CIR with the current instruction
+	cpu.Decode(); //Decode the instruction
+	memory.SetMAR(cpu.GetAddressReg) //Set MAR to location of data
+	memory.SetMDR(); //Set MDR with data
+	cpu.SetDataReg(memory.GetMDR()); //Set data register in CPU
+	cpu.Execute(); //Execute Instruction
+	if(cpu.GetJumpFlag()){
+		cpu.Jump();
 	}
 	else{
-		Execute(Instruction);
+		
 	}
 }

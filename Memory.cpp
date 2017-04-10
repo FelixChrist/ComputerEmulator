@@ -9,7 +9,8 @@ public:
 	Memory();
 	~Memory();
 	std::bitset<32> GetMDR();
-	void SetMDR();
+	void SetMDRInstruction();
+	void SetMDRData();
 private:
 	std::vector< std::bitset<8> > RAM; //Vector of 8 bit numbers to act as RAM
 	std::bitset<16> MAR;
@@ -27,8 +28,17 @@ Memory::~Memory(){
 std::bitset<32> Memory::GetMDR(){
 	return MDR; //Returns data value at address
 }
-void Memory::SetMDR(){
-	for(int i = 0;i < 8; i++){
-		MDR[i] = RAM[(int)MAR.to_ulong()][i];//Sets value of specified address in RAM
+void Memory::SetMDRInstruction(){
+	for(int j = 0;j < 3; j++){
+		for(int i = 0;i < 8; i++){
+			MDR[i] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
+		}
+	}
+}
+void Memory::SetMDRData(){
+	for(int j = 0;j < 4; j++){
+		for(int i = 0;i < 8; i++){
+			MDR[i] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
+		}
 	}
 }
