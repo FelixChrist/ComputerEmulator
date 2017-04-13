@@ -18,22 +18,3 @@ CU::CU(){
 	instructionReg = 0;
 	addressReg = 0;
 }
-CU::~CU(){
-}
-void CU::SetInputReg(std::bitset<32> input){
-	inputReg = input;
-}
-void CU::Decode(){
-	for(int i = 0;i < 8;i++){
-		instructionReg[i] = inputReg[i];
-	}
-	for(int i = 8;i < 24; i++){
-		addressReg[i-8]=inputReg[i];
-	}
-}
-std::bitset<8> CU::GetInstructionReg(){
-	return instructionReg;
-}
-std::bitset<16> CU::GetAddressReg(){
-	return addressReg;
-}
