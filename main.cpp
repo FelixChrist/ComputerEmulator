@@ -21,7 +21,7 @@ void FetchExecuteCycle(){
 	memory.SetMDRData(); //Set MDR with data
 	cpu.SetDataReg(memory.GetMDR()); //Set data register in CPU
 	cpu.Execute(); //Execute Instruction
-	cout << cpu.GetAccumulator() << endl;
+	cout << cpu.GetAccumulator().to_ulong() << endl;
 	if(cpu.GetJumpFlag()){
 		cpu.Jump();
 	}

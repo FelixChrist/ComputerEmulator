@@ -10,7 +10,6 @@ public:
 	void SetCIR(std::bitset<32> );
 	void IncrementPC();
 	void SetPC(std::bitset<16> );
-	void SetInput();
 	void SetDataReg(std::bitset<32> );
 	void Decode();
 	bool GetJumpFlag();
@@ -25,7 +24,6 @@ private:
 	ALU alu;
 	std::bitset<32> cir;
 	std::bitset<16> pc;
-	std::bitset<32> dataReg;
 };
 CPU::CPU(){
 	cir = 0;
@@ -46,7 +44,7 @@ void CPU::SetPC(std::bitset<16> address){
 	pc = address;
 }
 void CPU::SetDataReg(std::bitset<32> data){
-	dataReg = data;
+	alu.SetInputReg(data);
 }
 void CPU::Decode(){
 	cu.SetInputReg(cir);
