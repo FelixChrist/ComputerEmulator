@@ -7,7 +7,7 @@ class CPU
 public:
 	CPU();
 	~CPU();
-	void SetCIR();
+	void SetCIR(std::bitset<32> );
 	void IncrementPC();
 	void SetPC(std::bitset<16> );
 	void SetInput();

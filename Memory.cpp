@@ -40,14 +40,14 @@ std::bitset<32> Memory::GetMDR(){
 void Memory::SetMDRInstruction(){
 	for(int j = 0;j < 3; j++){
 		for(int i = 0;i < 8; i++){
-			MDR[i] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
+			MDR[i*(j+1)] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
 		}
 	}
 }
 void Memory::SetMDRData(){
 	for(int j = 0;j < 4; j++){
 		for(int i = 0;i < 8; i++){
-			MDR[i] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
+			MDR[i*(j+1)] = RAM[(int)MAR.to_ulong()+j][i];//Sets value of specified address in RAM
 		}
 	}
 }

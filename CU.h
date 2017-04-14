@@ -13,8 +13,3 @@ private:
 	std::bitset<8> instructionReg;
 	std::bitset<16> addressReg;
 };
-CU::CU(){
-	inputReg = 0; // Sets all registers to 0 on initialisation 
-	instructionReg = 0;
-	addressReg = 0;
-}
