@@ -41,6 +41,7 @@ void CPU::SetCIR(std::bitset<32> instruction){
 }
 void CPU::Execute(){
 	alu.Execute(cu.GetInstructionReg());
+	cu.Execute(alu.GetZeroFlag());
 }
 void CPU::IncrementPC(){
 	pc =(int)pc.to_ulong() + 3;
@@ -59,22 +60,22 @@ std::bitset<16> CPU::GetPC(){
 	return pc;
 }
 bool CPU::GetJumpFlag(){
-	return alu.GetJumpFlag();
+	return cu.GetJumpFlag();
 }
 bool CPU::GetStoreFlag(){
-	return alu.GetStoreFlag();
+	return cu.GetStoreFlag();
 }
 void CPU::Jump(){
 	pc = cu.GetAddressReg();
-	alu.ResetJumpFlag();
+	cu.ResetJumpFlag();
 }
 std::bitset<32> CPU::GetAccumulator(){
-	alu.ResetStoreFlag();
+	cu.ResetStoreFlag();
 	return alu.GetAccumulator();
 }
 std::bitset<16> CPU::GetAddressReg(){
 	return cu.GetAddressReg();
 }
 bool CPU::GetHalt(){
-	return alu.GetHalt();
+	return cu.GetHalt();
 }

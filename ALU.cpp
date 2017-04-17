@@ -9,24 +9,17 @@ public:
 	void Execute(std::bitset<8>);
 	void SetInputReg(std::bitset<32> );
 	std::bitset<32> GetAccumulator();
-	void ResetJumpFlag();
-	bool GetJumpFlag();
-	void ResetStoreFlag();
-	bool GetStoreFlag();
-	bool GetHalt();
+	bool GetZeroFlag();
 private:
 	std::bitset<32> accumulator;
 	std::bitset<32> inputReg;
-	bool jumpFlag;
-	bool storeFlag;
-	bool halt;
+	bool zeroFlag;
 };
 ALU::ALU(){
 	accumulator = 0; //initialises the registers to 0
 	inputReg = 0;
-	jumpFlag = 0;
-	storeFlag = 0;
-	halt = 0;
+	zeroFlag = 0;
+
 }
 ALU::~ALU(){
 }
@@ -34,15 +27,11 @@ void ALU::Execute(std::bitset<8> instruction){
 	// cout << "Data: " << inputReg << endl;
 	//cout << "Instruction: " << instruction.to_ulong() << endl;
 	switch((int)instruction.to_ulong()){
-		case 0:
-			halt = 1;
-			cout << "Halting." << endl;
+		case 0: //Halting
 		case 1: //LDA
 			accumulator = inputReg;
 			break;
 		case 2: //STA
-			storeFlag = 1;
-			//cout << "Setting Store Flag to " << storeFlag << endl;
 			break;
 		case 3: //ADD
 			accumulator = (int)accumulator.to_ulong() + (int)inputReg.to_ulong();
@@ -57,12 +46,8 @@ void ALU::Execute(std::bitset<8> instruction){
 			accumulator = accumulator.to_ulong() >> inputReg.to_ulong();
 			break;
 		case 7: //BRA
-			jumpFlag = 1;
 			break;
 		case 8: //BRZ
-			if(accumulator == 0){
-				jumpFlag = 1;
-			}
 			break;
 		case 9: //INC
 			accumulator = accumulator.to_ulong() + 1;
@@ -72,6 +57,12 @@ void ALU::Execute(std::bitset<8> instruction){
 			break;
 
 	}
+	if(accumulator == 0){
+		zeroFlag = 1;
+	}
+	else{
+		zeroFlag = 0;
+	}
 	//cout << "Store Flag: " << storeFlag << endl;
 }
 void ALU::SetInputReg(std::bitset<32> input){
@@ -80,18 +71,6 @@ void ALU::SetInputReg(std::bitset<32> input){
 std::bitset<32> ALU::GetAccumulator(){
 	return accumulator;
 }
-void ALU::ResetJumpFlag(){
-	jumpFlag = 0;
-}
-bool ALU::GetJumpFlag(){
-	return jumpFlag;
-}
-void ALU::ResetStoreFlag(){
-	storeFlag = 0;
-}
-bool ALU::GetStoreFlag(){
-	return storeFlag;
-}
-bool ALU::GetHalt(){
-	return halt;
+bool ALU::GetZeroFlag(){
+	return zeroFlag;
 }

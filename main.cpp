@@ -82,6 +82,15 @@ void SetProgram(){
 				else if(not code[i][1].compare("BRZ")){
 					opcode = 8;
 				}
+				else if(not code[i][1].compare("BRP")){
+					opcode = 9;
+				}
+				else if(not code[i][1].compare("INC")){
+					opcode = 10;
+				}
+				else if(not code[i][1].compare("DEC")){
+					opcode = 11;
+				}
 				istringstream(code[i][2]) >> operand;
 				memory.SetProgram(address,opcode,operand);
 			}
