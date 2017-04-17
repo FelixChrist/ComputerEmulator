@@ -12,6 +12,8 @@ public:
 	void SetAddress();
 	void SetMDRInstruction();
 	void SetMDRData();
+	void SetProgram(int , int,  int );
+	void SetProgram(int , int );
 	void SetMAR(std::bitset<16> );
 	void SetMDR(std::bitset<32> );
 private:

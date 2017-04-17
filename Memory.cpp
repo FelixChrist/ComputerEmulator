@@ -12,6 +12,8 @@ public:
 	void SetAddress();
 	void SetMDRInstruction();
 	void SetMDRData();
+	void SetProgram(int , int,  int );
+	void SetProgram(int , int );
 	void SetMAR(std::bitset<16> );
 	void SetMDR(std::bitset<32> );
 private:
@@ -24,16 +26,37 @@ Memory::Memory(){
 	for(int i = 0;i<RAM_SIZE;i++){
 		RAM.push_back(0); //Fills RAM up to the defined size
 	}
-	RAM[0]=2;
-	RAM[1]=14;
-	RAM[3]=3;
-	RAM[5]=24;
-	RAM[14]=22;
-	RAM[16]=22;
-	RAM[24]=2;
+	// RAM[0]=2;
+	// RAM[1]=17;
+	// RAM[3]=3;
+	// RAM[4]=24;
+	// RAM[6]=1;
+	// RAM[7]=100;
+	// RAM[9]=2;
+	// RAM[10]=100;
+	
+	// RAM[17]=22;
+	// RAM[24]=2;
 }
 Memory::~Memory(){
 	RAM.clear(); //Clears the RAM
+}
+void Memory::SetProgram(int address, int opcode, int operand){
+	RAM[address] = opcode;
+	std::bitset<16> temp = operand;
+	for(int i = 0;i < 2;i++){
+		for(int j =0;j < 8;j++){
+			RAM[address+1+i][j] = temp[j+(i*8)];
+		}
+	}
+}
+void Memory::SetProgram(int address, int data){
+	std::bitset<32> temp = data;
+	for(int i = 0;i < 4;i++){
+		for(int j = 0;j < 8;j++){
+			RAM[address+i][j] = temp[j+(i*8)];
+		}
+	}
 }
 std::bitset<32> Memory::GetMDR(){
 	return MDR; //Returns data value at address

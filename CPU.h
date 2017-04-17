@@ -16,6 +16,7 @@ public:
 	void Jump();
 	bool GetStoreFlag();
 	void Execute();
+	bool GetHalt();
 	std::bitset<16> GetAddressReg();
 	std::bitset<8> GetInstructionReg();
 	std::bitset<32> GetAccumulator();

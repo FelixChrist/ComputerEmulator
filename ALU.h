@@ -12,9 +12,11 @@ public:
 	bool GetJumpFlag();
 	void ResetStoreFlag();
 	bool GetStoreFlag();
+	bool GetHalt();
 private:
 	std::bitset<32> accumulator;
 	std::bitset<32> inputReg;
 	bool jumpFlag;
 	bool storeFlag;
+	bool halt;
 };

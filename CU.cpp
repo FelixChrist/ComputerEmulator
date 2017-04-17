@@ -26,7 +26,7 @@ void CU::SetInputReg(std::bitset<32> input){
 	inputReg = input;
 }
 void CU::Decode(){
-	cout <<  "Decode input: " << inputReg << endl;
+	//cout <<  "Decode input: " << inputReg << endl;
 	for(int i = 0;i < 8;i++){
 		instructionReg[i] = inputReg[i];
 	}
