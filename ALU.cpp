@@ -1,5 +1,6 @@
 #include <bitset>
-
+#include <iostream>
+using namespace std;
 class ALU
 {
 public:
@@ -22,10 +23,13 @@ ALU::ALU(){
 	accumulator = 0; //initialises the registers to 0
 	inputReg = 0;
 	jumpFlag = 0;
+	storeFlag = 0;
 }
 ALU::~ALU(){
 }
 void ALU::Execute(std::bitset<8> instruction){
+	cout << "Data: " << inputReg << endl;
+	cout << "Instruction: " << instruction << endl;
 	switch((int)instruction.to_ulong()){
 		case 0: //LDA
 			accumulator = inputReg;

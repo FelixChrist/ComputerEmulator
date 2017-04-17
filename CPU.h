@@ -10,7 +10,6 @@ public:
 	void SetCIR(std::bitset<32> );
 	void IncrementPC();
 	void SetPC(std::bitset<16> );
-	void SetInput();
 	void SetDataReg(std::bitset<32> );
 	void Decode();
 	bool GetJumpFlag();
@@ -18,6 +17,7 @@ public:
 	bool GetStoreFlag();
 	void Execute();
 	std::bitset<16> GetAddressReg();
+	std::bitset<8> GetInstructionReg();
 	std::bitset<32> GetAccumulator();
 	std::bitset<16> GetPC();
 private:

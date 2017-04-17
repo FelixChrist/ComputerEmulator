@@ -1,4 +1,6 @@
 #include <bitset>
+#include <iostream>
+using namespace std;
 class CU
 {
 public:
@@ -24,12 +26,15 @@ void CU::SetInputReg(std::bitset<32> input){
 	inputReg = input;
 }
 void CU::Decode(){
-	for(int i = 8;i < 16;i++){
+	cout <<  "Decode input: " << inputReg << endl;
+	for(int i = 0;i < 8;i++){
 		instructionReg[i] = inputReg[i];
 	}
-	for(int i = 16;i < 32; i++){
+	//cout << instructionReg << endl;
+	for(int i = 8;i < 24; i++){
 		addressReg[i-8]=inputReg[i];
 	}
+	//cout << addressReg << endl;
 }
 std::bitset<8> CU::GetInstructionReg(){
 	return instructionReg;

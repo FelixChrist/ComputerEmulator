@@ -17,6 +17,7 @@ public:
 	bool GetStoreFlag();
 	void Execute();
 	std::bitset<16> GetAddressReg();
+	std::bitset<8> GetInstructionReg();
 	std::bitset<32> GetAccumulator();
 	std::bitset<16> GetPC();
 private:
@@ -30,6 +31,9 @@ CPU::CPU(){
 	pc = 0;
 }
 CPU::~CPU(){
+}
+std::bitset<8> CPU::GetInstructionReg(){
+	return cu.GetInstructionReg();
 }
 void CPU::SetCIR(std::bitset<32> instruction){
 	cir = instruction;
