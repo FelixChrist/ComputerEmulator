@@ -1,6 +1,7 @@
 #include <vector>
 #include <bitset>
 #define RAM_SIZE 65536
+#define DEBUG
 using namespace std;
 
 class Memory
@@ -26,7 +27,8 @@ Memory::Memory(){
 	for(int i = 0;i<RAM_SIZE;i++){
 		RAM.push_back(0); //Fills RAM up to the defined size
 	}
-	//  RAM[0]=2;
+	//For testing memory
+	// RAM[0]=2;
 	// RAM[1]=17;
 	// RAM[3]=3;
 	// RAM[4]=24;
@@ -34,7 +36,6 @@ Memory::Memory(){
 	// RAM[7]=100;
 	// RAM[9]=2;
 	// RAM[10]=100;
-	
 	// RAM[17]=22;
 	// RAM[24]=2;
 }
@@ -44,7 +45,8 @@ Memory::~Memory(){
 void Memory::SetProgram(int address, int opcode, int operand){
 	RAM[address] = opcode;
 	std::bitset<16> temp = operand;
-	for(int i = 0;i < 2;i++){
+	//Sets 3 bytes of memory for instructions
+	for(int i = 0;i < 2;i++){ 
 		for(int j =0;j < 8;j++){
 			RAM[address+1+i][j] = temp[j+(i*8)];
 		}
@@ -52,6 +54,7 @@ void Memory::SetProgram(int address, int opcode, int operand){
 }
 void Memory::SetProgram(int address, int data){
 	std::bitset<32> temp = data;
+	//Sets 4 bytes of memory for data
 	for(int i = 0;i < 4;i++){
 		for(int j = 0;j < 8;j++){
 			RAM[address+i][j] = temp[j+(i*8)];
@@ -84,8 +87,8 @@ void Memory::SetAddress(){
 }
 
 void Memory::SetMAR(std::bitset<16> address){
-	MAR=address;
+	MAR=address; //Sets the MAR
 }
 void Memory::SetMDR(std::bitset<32> data){
-	MDR = data;
+	MDR = data; //Sets the MDR
 }

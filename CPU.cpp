@@ -1,6 +1,7 @@
 #include <bitset>
 #include "CU.h"
 #include "ALU.h"
+#define DEBUG
 
 class CPU
 {
@@ -26,6 +27,7 @@ public:
 	std::bitset<32> GetAccumulator();
 	std::bitset<16> GetPC();
 private:
+	//Instantiate components
 	CU cu;
 	ALU alu;
 	std::bitset<32> cir;
@@ -44,10 +46,12 @@ void CPU::SetCIR(std::bitset<32> instruction){
 	cir = instruction;
 }
 void CPU::Execute(){
+	//Execute the instruction
 	alu.Execute(cu.GetInstructionReg());
 	cu.Execute(alu.GetZeroFlag());
 }
 void CPU::IncrementPC(){
+	//Sets PC to next instruction value
 	pc =(int)pc.to_ulong() + 3;
 }
 void CPU::SetPC(std::bitset<16> address){
@@ -57,6 +61,7 @@ void CPU::SetDataReg(std::bitset<32> data){
 	alu.SetInputReg(data);
 }
 void CPU::Decode(){
+	//Sets input and decodes
 	cu.SetInputReg(cir);
 	cu.Decode();
 }

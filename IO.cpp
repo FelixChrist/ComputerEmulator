@@ -16,18 +16,20 @@ private:
 	std::bitset<32> inputReg;
 };
 IO::IO(){
-	outputReg = 0;
+	outputReg = 0; //Initialise registers to 0
 	inputReg = 0;
 }
 IO::~IO(){
 }
 void IO::Print(){
+	//Outputs to screen
 	cout << inputReg << endl;
 }
 void IO::SetInputReg(std::bitset<32> input){
 	inputReg = input;
 }
 void IO::SetOutputReg(){
+	//Get user input
 	int temp;
 	cin >> temp;
 	outputReg = temp;

@@ -7,7 +7,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#define PROGRAM "program2"
+#define PROGRAM "PowerOfTwo"
+#define DEBUG
 using namespace std;
 CPU cpu;
 Memory memory;
@@ -22,6 +23,7 @@ void SetProgram(){
 	std::vector<std::vector<string> > code;
 	string current;
 	ifstream myfile (PROGRAM);
+	// This reads Assembly from the program
 	if (myfile.is_open())
 	{
 		while ( getline (myfile,line) )
@@ -58,10 +60,14 @@ void SetProgram(){
 			cout << endl;
 			current.clear();
 		}
+		//This converts to machine code
 		for(int i = 0;i < code.size();i++){
 			if(code[i].size()==3){
 				istringstream(code[i][0]) >> address;
-				if(not code[i][1].compare("LDA")){
+				if(not code[i][1].compare("HLT")){
+					opcode = 0;
+				}
+				else if(not code[i][1].compare("LDA")){
 					opcode = 1;
 				}
 				else if(not code[i][1].compare("STA")){
@@ -120,7 +126,9 @@ bool FetchExecuteCycle(){
 
 
 	memory.SetMAR(cpu.GetPC()); //Set MAR to Location of instruction
-	//cout << "Instruction address: " << cpu.GetPC().to_ulong() << endl;
+	#ifdef DEBUG
+	cout << "Instruction address: " << cpu.GetPC().to_ulong() << endl;
+	#endif
 	cpu.IncrementPC(); //Set PC to location of next instruction
 	memory.SetMDRInstruction(); //Set MDR with instruction
 	cpu.SetCIR(memory.GetMDR()); //Set CIR with the current instruction
@@ -129,43 +137,56 @@ bool FetchExecuteCycle(){
 	memory.SetMDRData(); //Set MDR with data
 	//cout << "Memory stuff: " << memory.GetMDR().to_ulong() << endl;
 	cpu.SetDataReg(memory.GetMDR()); //Set data register in CPU
+
+
 	cpu.Execute(); //Execute Instruction
-	
+	#ifdef DEBUG
+	cout << "Jump: " << cpu.GetJumpFlag() << endl;
+	cout << "Store: " << cpu.GetStoreFlag() << endl;
+	cout << "In: " << cpu.GetInFlag() << endl;
+	cout << "Out: " << cpu.GetOutFlag() << endl;
+	#endif
 	if(cpu.GetJumpFlag()){
-		cpu.Jump();
+		cpu.Jump(); //Branch the PC
 	}
-	//cout << "Store Flag: " << cpu.GetStoreFlag() << endl;
-	if(cpu.GetStoreFlag()){
+	if(cpu.GetStoreFlag()){ //Stores a value
 		memory.SetMDR(cpu.GetAccumulator());
 		memory.SetMAR(cpu.GetAddressReg());
 		memory.SetAddress();
 	}
-	//cout << "IN: " << cpu.GetInFlag() << endl;
-	if (cpu.GetInFlag()){
-		//cout << "Here" << endl;
+
+	if (cpu.GetInFlag()){//Gets user input
+
 		io.SetOutputReg();
 		memory.SetMDR(io.GetOutputReg());
 		memory.SetMAR(cpu.GetAddressReg());
 		memory.SetAddress();
-		cpu.ResetInFlag();		
+		cpu.ResetInFlag();	
 	}
-	if(cpu.GetOutFlag()){
+
+	if(cpu.GetOutFlag()){//Prints stuff to screen
 		io.SetInputReg(cpu.GetAccumulator());
 		io.Print();
 		cpu.ResetOutFlag();
 	}
+
 	if(not cpu.GetHalt()){
-		//cout << "Accumulator: " << cpu.GetAccumulator().to_ulong() << endl;
+		#ifdef DEBUG
+		cout << "Accumulator: " << cpu.GetAccumulator().to_ulong() << endl;
+		#endif
 	}
+
 	return cpu.GetHalt();
+
 
 }
 
 int main(){
 	SetProgram();
+	cout << "Starting Program..." << endl;
 	while(1){
 		if(FetchExecuteCycle()){//Run the fetch execute cycle
-			break;
+			break; //Breaks if halted
 		} 
 	}
 	return 1;

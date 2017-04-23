@@ -1,5 +1,6 @@
 #include <bitset>
 #include <iostream>
+#define DEBUG
 using namespace std;
 class ALU
 {
@@ -24,8 +25,11 @@ ALU::ALU(){
 ALU::~ALU(){
 }
 void ALU::Execute(std::bitset<8> instruction){
-	// cout << "Data: " << inputReg << endl;
-	//cout << "Instruction: " << instruction.to_ulong() << endl;
+	#ifdef DEBUG
+	cout << "ALU Data: " << inputReg << endl;
+	cout << "ALU Instruction: " << instruction.to_ulong() << endl;
+	#endif
+	//Executes instruction
 	switch((int)instruction.to_ulong()){
 		case 0: //Halting
 		case 1: //LDA
@@ -70,7 +74,9 @@ void ALU::Execute(std::bitset<8> instruction){
 	else{
 		zeroFlag = 0;
 	}
-	//cout << "Store Flag: " << storeFlag << endl;
+	#ifdef DEBUG
+	cout << "Zero: " << zeroFlag << endl;
+	#endif
 }
 void ALU::SetInputReg(std::bitset<32> input){
 	inputReg=input;
