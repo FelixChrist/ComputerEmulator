@@ -26,7 +26,7 @@ Memory::Memory(){
 	for(int i = 0;i<RAM_SIZE;i++){
 		RAM.push_back(0); //Fills RAM up to the defined size
 	}
-	// RAM[0]=2;
+	//  RAM[0]=2;
 	// RAM[1]=17;
 	// RAM[3]=3;
 	// RAM[4]=24;

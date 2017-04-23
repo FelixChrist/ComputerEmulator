@@ -16,6 +16,10 @@ public:
 	void ResetStoreFlag();
 	bool GetStoreFlag();
 	bool GetHalt();
+	void ResetInFlag();
+	bool GetInFlag();
+	void ResetOutFlag();
+	bool GetOutFlag();
 private:
 	std::bitset<32> inputReg;
 	std::bitset<8> instructionReg;
@@ -23,6 +27,8 @@ private:
 	bool jumpFlag;
 	bool storeFlag;
 	bool halt;
+	bool inFlag;
+	bool outFlag;
 };
 CU::CU(){
 	inputReg = 0; // Sets all registers to 0 on initialisation 
@@ -31,6 +37,8 @@ CU::CU(){
 	jumpFlag = 0;
 	storeFlag = 0;
 	halt = 0;
+	inFlag = 0;
+	outFlag = 0;
 }
 CU::~CU(){
 }
@@ -42,11 +50,11 @@ void CU::Decode(){
 	for(int i = 0;i < 8;i++){
 		instructionReg[i] = inputReg[i];
 	}
-	//cout << instructionReg << endl;
+	//cout << instructionReg.to_ulong() << endl;
 	for(int i = 8;i < 24; i++){
 		addressReg[i-8]=inputReg[i];
 	}
-	//cout << addressReg << endl;
+	//cout << addressReg.to_ulong() << endl;
 }
 void CU::Execute(bool zeroFlag){
 	switch(instructionReg.to_ulong()){
@@ -81,9 +89,16 @@ void CU::Execute(bool zeroFlag){
 			}
 			break;
 		case 10: //INC
+			storeFlag = 1;
 			break;
 		case 11: //DEC
+			storeFlag = 1;
 			break;
+		case 12: //INP
+			inFlag = 1;
+		case 13: //OUT
+			outFlag = 1;
+
 	}
 }
 std::bitset<8> CU::GetInstructionReg(){
@@ -106,4 +121,16 @@ bool CU::GetStoreFlag(){
 }
 bool CU::GetHalt(){
 	return halt;
+}
+void CU::ResetInFlag(){
+	inFlag = 0;
+}
+bool CU::GetInFlag(){
+	return inFlag;
+}
+void CU::ResetOutFlag(){
+	outFlag = 0;
+}
+bool CU::GetOutFlag(){
+	return outFlag;
 }

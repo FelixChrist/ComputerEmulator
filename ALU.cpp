@@ -49,11 +49,18 @@ void ALU::Execute(std::bitset<8> instruction){
 			break;
 		case 8: //BRZ
 			break;
-		case 9: //INC
-			accumulator = accumulator.to_ulong() + 1;
+		case 9: //BRP
 			break;
-		case 10: //DEC
-			accumulator = accumulator.to_ulong() - 1;
+		case 10: //INC
+			accumulator = inputReg.to_ulong() + 1;
+			break;
+		case 11: //DEC
+			accumulator = inputReg.to_ulong() - 1;
+			break;
+		case 12: //INP
+			break;
+		case 13: //OUT
+			accumulator = inputReg;
 			break;
 
 	}

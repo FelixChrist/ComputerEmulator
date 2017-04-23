@@ -15,8 +15,12 @@ public:
 	bool GetJumpFlag();
 	void Jump();
 	bool GetStoreFlag();
+	bool GetInFlag();
+	bool GetOutFlag();
 	void Execute();
 	bool GetHalt();
+	void ResetInFlag();
+	void ResetOutFlag();
 	std::bitset<16> GetAddressReg();
 	std::bitset<8> GetInstructionReg();
 	std::bitset<32> GetAccumulator();
@@ -78,4 +82,16 @@ std::bitset<16> CPU::GetAddressReg(){
 }
 bool CPU::GetHalt(){
 	return cu.GetHalt();
+}
+bool CPU::GetInFlag(){
+	return cu.GetInFlag();
+}
+bool CPU::GetOutFlag(){
+	return cu.GetOutFlag();
+}
+void CPU::ResetInFlag(){
+	cu.ResetInFlag();
+}
+void CPU::ResetOutFlag(){
+	cu.ResetOutFlag();
 }

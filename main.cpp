@@ -3,12 +3,15 @@
 #include <vector>
 #include "Memory.h"
 #include "CPU.h"
+#include "IO.h"
 #include <fstream>
 #include <string>
 #include <sstream>
+#define PROGRAM "program2"
 using namespace std;
 CPU cpu;
 Memory memory;
+IO io;
 void SetProgram(){
 	string line;
 	int address;
@@ -18,7 +21,7 @@ void SetProgram(){
 	std::vector<string> lines;
 	std::vector<std::vector<string> > code;
 	string current;
-	ifstream myfile ("program");
+	ifstream myfile (PROGRAM);
 	if (myfile.is_open())
 	{
 		while ( getline (myfile,line) )
@@ -91,6 +94,12 @@ void SetProgram(){
 				else if(not code[i][1].compare("DEC")){
 					opcode = 11;
 				}
+				else if(not code[i][1].compare("INP")){
+					opcode = 12;
+				}
+				else if(not code[i][1].compare("OUT")){
+					opcode = 13;
+				}
 				istringstream(code[i][2]) >> operand;
 				memory.SetProgram(address,opcode,operand);
 			}
@@ -111,13 +120,14 @@ bool FetchExecuteCycle(){
 
 
 	memory.SetMAR(cpu.GetPC()); //Set MAR to Location of instruction
-	cout << "Instruction address: " << cpu.GetPC().to_ulong() << endl;
+	//cout << "Instruction address: " << cpu.GetPC().to_ulong() << endl;
 	cpu.IncrementPC(); //Set PC to location of next instruction
 	memory.SetMDRInstruction(); //Set MDR with instruction
 	cpu.SetCIR(memory.GetMDR()); //Set CIR with the current instruction
 	cpu.Decode(); //Decode the instruction
 	memory.SetMAR(cpu.GetAddressReg()); //Set MAR to location of data
 	memory.SetMDRData(); //Set MDR with data
+	//cout << "Memory stuff: " << memory.GetMDR().to_ulong() << endl;
 	cpu.SetDataReg(memory.GetMDR()); //Set data register in CPU
 	cpu.Execute(); //Execute Instruction
 	
@@ -130,8 +140,22 @@ bool FetchExecuteCycle(){
 		memory.SetMAR(cpu.GetAddressReg());
 		memory.SetAddress();
 	}
+	//cout << "IN: " << cpu.GetInFlag() << endl;
+	if (cpu.GetInFlag()){
+		//cout << "Here" << endl;
+		io.SetOutputReg();
+		memory.SetMDR(io.GetOutputReg());
+		memory.SetMAR(cpu.GetAddressReg());
+		memory.SetAddress();
+		cpu.ResetInFlag();		
+	}
+	if(cpu.GetOutFlag()){
+		io.SetInputReg(cpu.GetAccumulator());
+		io.Print();
+		cpu.ResetOutFlag();
+	}
 	if(not cpu.GetHalt()){
-		cout << "Accumulator: " << cpu.GetAccumulator().to_ulong() << endl;
+		//cout << "Accumulator: " << cpu.GetAccumulator().to_ulong() << endl;
 	}
 	return cpu.GetHalt();
 

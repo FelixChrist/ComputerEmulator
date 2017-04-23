@@ -16,6 +16,10 @@ public:
 	void ResetStoreFlag();
 	bool GetStoreFlag();
 	bool GetHalt();
+	void ResetInFlag();
+	bool GetInFlag();
+	void ResetOutFlag();
+	bool GetOutFlag();
 private:
 	std::bitset<32> inputReg;
 	std::bitset<8> instructionReg;
@@ -23,4 +27,6 @@ private:
 	bool jumpFlag;
 	bool storeFlag;
 	bool halt;
+	bool inFlag;
+	bool outFlag;
 };

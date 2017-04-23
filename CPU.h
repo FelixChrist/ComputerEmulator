@@ -15,8 +15,12 @@ public:
 	bool GetJumpFlag();
 	void Jump();
 	bool GetStoreFlag();
+	bool GetInFlag();
+	bool GetOutFlag();
 	void Execute();
 	bool GetHalt();
+	void ResetInFlag();
+	void ResetOutFlag();
 	std::bitset<16> GetAddressReg();
 	std::bitset<8> GetInstructionReg();
 	std::bitset<32> GetAccumulator();
@@ -26,5 +30,4 @@ private:
 	ALU alu;
 	std::bitset<32> cir;
 	std::bitset<16> pc;
-	std::bitset<32> dataReg;
 };
